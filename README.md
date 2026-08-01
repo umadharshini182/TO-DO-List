@@ -1,23 +1,34 @@
-# 📝 Premium To-Do List
+# 🌟 Premium Productivity Dashboard
 
-A modern, responsive, and feature-rich To-Do List web application built using HTML, CSS, and JavaScript.
+A modern, responsive, and feature-rich Productivity Dashboard built using **HTML**, **CSS**, and **JavaScript**. This project helps users organize daily tasks, improve productivity, and stay focused with a clean and professional interface.
 
-## ✨ Features
+---
 
-- 📋 Add, complete, favorite, and delete tasks
-- 📅 Due date and time management
-- ⏳ Live remaining time countdown
-- 🔍 Search tasks
-- 📂 Filter tasks by category
-- 📊 Dashboard with task statistics
-- 🌈 Animated progress circle
-- 📈 Charts for task overview
-- 🌙 Dark / Light mode
-- 🍅 Pomodoro timer
-- 🔔 Toast notifications
-- 🎉 Success and congratulations popups
-- 💾 LocalStorage support (tasks remain after refresh)
-- 📱 Fully responsive design for mobile, tablet, and desktop
+## 🚀 Features
+
+- ✅ Add, Edit, Delete Tasks
+- ❤️ Mark Favorite Tasks
+- ✔️ Complete Tasks
+- 🔍 Live Search
+- 📂 Category Filter
+- ⭐ Task Sorting
+- 📅 Due Date & Time
+- ⏳ Remaining Time Countdown
+- 🚨 Overdue Task Highlight
+- 📊 Productivity Dashboard
+- 📈 Interactive Charts
+- 🌈 Animated Progress Ring
+- 🍅 Pomodoro Focus Timer
+- 🌙 Dark Mode
+- 💬 Motivational Quotes
+- ⏰ Real-Time Clock
+- 📅 Live Date & Day
+- 🔔 Toast Notifications
+- 🎉 Success & Congratulations Popups
+- 💾 Local Storage Support
+- 📱 Fully Responsive Design
+
+---
 
 ## 🛠️ Technologies Used
 
@@ -26,30 +37,58 @@ A modern, responsive, and feature-rich To-Do List web application built using HT
 - JavaScript (ES6)
 - Chart.js
 - Font Awesome
+- Google Fonts (Poppins)
 
-## 🚀 Live Demo
+---
 
-Coming Soon
+## 📱 Responsive Design
 
-## 📷 Screenshots
+The application is optimized for:
 
-Screenshots will be added soon.
+- 📱 Mobile Phones
+- 📲 Tablets
+- 💻 Laptops
+- 🖥️ Desktop Screens
 
-## 📌 Future Improvements
+---
 
-- User authentication
-- Cloud database integration
-- Drag and drop tasks
-- Recurring tasks
-- Calendar view
-- Task reminders
+## 🌙 User Experience
+
+The dashboard features a premium glassmorphism design with a colorful purple theme, smooth animations, dark mode support, and an intuitive interface designed to enhance productivity.
+
+---
+
+## 📸 Project Highlights
+
+- Modern UI/UX
+- Animated Dashboard
+- Real-Time Productivity Tracking
+- Responsive Layout
+- Interactive Charts
+- Beautiful Animations
+
+---
+
+## 🎯 Future Improvements
+
+- Cloud Sync
+- User Authentication
+- Recurring Tasks
+- Calendar Integration
+- Multiple Themes
+- Notifications & Reminders
+- Task Export (PDF/Excel)
+
+---
 
 ## 👩‍💻 Developer
 
-**Uma Dharshini**
+**Uma**
 
-Engineering Student | Aspiring Software Developer
+Built as a portfolio project to demonstrate frontend development skills using HTML, CSS, and JavaScript.
 
-## 📄 License
+---
 
-This project is created for learning and portfolio purposes.
+## ⭐ Support
+
+If you like this project, consider giving it a ⭐ on GitHub.

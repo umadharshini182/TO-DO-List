@@ -1,59 +1,884 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TaskFlow Pro - Enterprise Task Manager</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome for professional UI icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>TO-DO List</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
-    <main class="app-container">
-        <header class="app-header">
-            <div class="header-top">
-                <h1><i class="fa-solid fa-list-check"></i> TaskFlow Pro</h1>
-                <div id="liveClock" class="live-clock">--:--:-- --</div>
-            </div>
-            <p class="subtitle">Organize, prioritize, and execute with precision.</p>
-        </header>
 
-        <section class="task-input-section">
-            <div class="input-group">
-                <input type="text" id="taskInput" placeholder="What needs to be done?" autocomplete="off">
-                <select id="priorityInput" aria-label="Task Priority">
-                    <option value="Low">Low Priority</option>
-                    <option value="Medium" selected>Medium Priority</option>
-                    <option value="High">High Priority</option>
-                </select>
-                <input type="datetime-local" id="dueDateInput" aria-label="Due Date and Time">
-                <button id="addTaskBtn" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Task</button>
-            </div>
-        </section>
+<div class="background-blur"></div>
 
-        <section class="task-controls">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="active">Active</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
-            </div>
-            <div class="task-stats">
-                <span id="taskCount">0 tasks remaining</span>
-            </div>
-        </section>
+<div class="container">
 
-        <section class="task-list-container">
-            <ul id="taskList"></ul>
-            <div id="emptyState" class="empty-state hidden">
-                <i class="fa-solid fa-clipboard-question"></i>
-                <p>No tasks found. You're completely caught up!</p>
-            </div>
-        </section>
-    </main>
+<!-- =====================================
+            HEADER
+====================================== -->
 
-    <!-- Toast Notification Popup Container -->
-    <div id="toastContainer" class="toast-container"></div>
+<header class="header glass">
 
-    <script src="script.js"></script>
+<div class="header-left">
+
+<div class="logo-title">
+
+<div class="logo-box">
+
+<i class="fa-solid fa-clipboard-check"></i>
+
+</div>
+
+<div>
+
+<h1 class="app-title">
+
+Premium Productivity Dashboard
+
+</h1>
+
+<p class="tagline">
+
+Plan • Focus • Achieve
+
+</p>
+
+</div>
+
+</div>
+
+<h2 id="greeting">
+
+Good Morning ☀️
+
+</h2>
+
+<p id="quote">
+
+Success starts with self discipline.
+
+</p>
+
+<div class="hero-line"></div>
+
+</div>
+
+<div class="header-right">
+
+<button id="themeToggle"
+class="theme-btn">
+
+<i class="fa-solid fa-moon"></i>
+
+<span>
+
+Dark Mode
+
+</span>
+
+</button>
+
+<div class="live-clock glass">
+
+<h2 id="clock">
+
+00:00:00
+
+</h2>
+
+<hr class="clock-line">
+
+<p id="todayDate">
+
+1 August 2026
+
+</p>
+
+<p id="todayDay">
+
+Saturday
+
+</p>
+
+</div>
+
+</div>
+
+</header>
+
+<!-- =====================================
+        OVERVIEW TITLE
+====================================== -->
+
+<section class="overview-title">
+
+<div class="overview-left">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<div>
+
+<h2>
+
+Overview
+
+</h2>
+
+<p>
+
+Track your daily productivity
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+<!-- =====================================
+        DASHBOARD
+====================================== -->
+
+<section class="dashboard">
+
+<div class="card glass">
+
+<div class="card-icon purple">
+
+<i class="fa-solid fa-list-check"></i>
+
+</div>
+
+<div>
+
+<h2 id="totalTasks">0</h2>
+
+<p>Total Tasks</p>
+
+</div>
+
+</div>
+
+<div class="card glass">
+
+<div class="card-icon green">
+
+<i class="fa-solid fa-circle-check"></i>
+
+</div>
+
+<div>
+
+<h2 id="completedTasks">0</h2>
+
+<p>Completed</p>
+
+</div>
+
+</div>
+
+<div class="card glass">
+
+<div class="card-icon orange">
+
+<i class="fa-solid fa-hourglass-half"></i>
+
+</div>
+
+<div>
+
+<h2 id="pendingTasks">0</h2>
+
+<p>Pending</p>
+
+</div>
+
+</div>
+
+<!-- Premium Progress Card -->
+
+<div class="progress-card glass">
+
+<div class="progress-circle">
+
+<!-- Rotating Rainbow Ring -->
+
+<div class="rainbow-ring"></div>
+
+<svg width="220" height="220">
+
+<defs>
+
+<linearGradient id="gradientColor">
+
+<stop offset="0%" stop-color="#7c3aed"/>
+
+<stop offset="100%" stop-color="#b46dff"/>
+
+</linearGradient>
+
+</defs>
+
+<circle
+
+class="bg-circle"
+
+cx="110"
+
+cy="110"
+
+r="82">
+
+</circle>
+
+<circle
+
+id="progressRing"
+
+class="progress-ring"
+
+cx="110"
+
+cy="110"
+
+r="82">
+
+</circle>
+
+</svg>
+
+<div class="progress-text">
+
+<h2 id="progressPercent">
+
+0%
+
+</h2>
+
+<p>
+
+Completed
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================
+        ADD NEW TASK
+====================================== -->
+
+<section class="task-form glass">
+
+<h2>
+
+<i class="fa-solid fa-circle-plus"></i>
+
+Add New Task
+
+</h2>
+
+<form id="taskForm">
+
+<div class="input-group">
+
+<label>
+
+Task Title
+
+</label>
+
+<input
+
+type="text"
+
+id="taskTitle"
+
+placeholder="Enter task title..."
+
+required>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Description
+
+</label>
+
+<textarea
+
+id="taskDescription"
+
+rows="4"
+
+placeholder="Write task description...">
+
+</textarea>
+
+</div>
+
+<div class="row">
+
+<div class="input-group">
+
+<label>
+
+Category
+
+</label>
+
+<select id="taskCategory">
+
+<option value="Study">📚 Study</option>
+
+<option value="Work">💼 Work</option>
+
+<option value="Personal">🏠 Personal</option>
+
+<option value="Shopping">🛒 Shopping</option>
+
+<option value="Health">❤️ Health</option>
+
+<option value="Others">📌 Others</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Priority
+
+</label>
+
+<select id="taskPriority">
+
+<option value="High">🔴 High</option>
+
+<option value="Medium">🟡 Medium</option>
+
+<option value="Low">🟢 Low</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="input-group">
+
+<label>
+
+Due Date
+
+</label>
+
+<input
+
+type="date"
+
+id="taskDate"
+
+required>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Due Time
+
+</label>
+
+<input
+
+type="time"
+
+id="taskTime"
+
+required>
+
+</div>
+
+</div>
+
+<button
+
+type="submit"
+
+id="addTaskBtn">
+
+<i class="fa-solid fa-plus"></i>
+
+Add Task
+
+</button>
+
+</form>
+
+</section>
+<!--=====================================
+        SEARCH & FILTER
+======================================-->
+
+<section class="controls glass">
+
+<div class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+
+type="text"
+
+id="searchTask"
+
+placeholder="Search tasks...">
+
+</div>
+
+<div class="filter-group">
+
+<select id="filterCategory">
+
+<option value="All">
+
+📂 All Categories
+
+</option>
+
+<option value="Study">
+
+📚 Study
+
+</option>
+
+<option value="Work">
+
+💼 Work
+
+</option>
+
+<option value="Personal">
+
+🏠 Personal
+
+</option>
+
+<option value="Shopping">
+
+🛒 Shopping
+
+</option>
+
+<option value="Health">
+
+❤️ Health
+
+</option>
+
+<option value="Others">
+
+📌 Others
+
+</option>
+
+</select>
+
+<select id="sortTasks">
+
+<option value="latest">
+
+🆕 Latest First
+
+</option>
+
+<option value="oldest">
+
+📅 Oldest First
+
+</option>
+
+<option value="priority">
+
+⭐ Priority
+
+</option>
+
+<option value="deadline">
+
+⏰ Deadline
+
+</option>
+
+<option value="completed">
+
+✅ Completed
+
+</option>
+
+<option value="pending">
+
+⌛ Pending
+
+</option>
+
+</select>
+
+</div>
+
+</section>
+
+<!--=====================================
+        REMAINING TASKS
+======================================-->
+
+<section class="remaining-section glass">
+
+<div class="remaining-header">
+
+<h2>
+
+<i class="fa-solid fa-hourglass-half"></i>
+
+Remaining Tasks
+
+</h2>
+
+<span id="remainingCount">
+
+0 Tasks Left
+
+</span>
+
+</div>
+
+<div id="nextDeadline">
+
+🎯 No upcoming deadlines
+
+</div>
+
+</section>
+
+<!--=====================================
+        CHARTS
+======================================-->
+
+<section class="charts">
+
+<div class="chart-card glass">
+
+<h3>
+
+<i class="fa-solid fa-chart-pie"></i>
+
+Task Overview
+
+</h3>
+
+<canvas id="taskChart">
+
+</canvas>
+
+</div>
+
+<div class="chart-card glass">
+
+<h3>
+
+<i class="fa-solid fa-chart-column"></i>
+
+Category Analysis
+
+</h3>
+
+<canvas id="categoryChart">
+
+</canvas>
+
+</div>
+
+</section>
+
+<!--=====================================
+        MY TASKS
+======================================-->
+
+<section class="tasks-section">
+
+<div class="task-header">
+
+<h2>
+
+<i class="fa-solid fa-list-check"></i>
+
+My Tasks
+
+</h2>
+
+<span id="taskCount">
+
+0 Tasks
+
+</span>
+
+</div>
+
+<div
+
+id="taskList"
+
+class="task-list">
+
+<div class="empty-state">
+
+<i class="fa-solid fa-clipboard-list"></i>
+
+<h2>
+
+No Tasks Yet
+
+</h2>
+
+<p>
+
+Add your first task to start your productivity journey 🚀
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+<!--=====================================
+        TOAST NOTIFICATION
+======================================-->
+
+<div id="toast" class="toast">
+
+<i
+
+id="toastIcon"
+
+class="fa-solid fa-circle-check">
+
+</i>
+
+<span id="toastMessage">
+
+Task Added Successfully
+
+</span>
+
+</div>
+
+<!--=====================================
+        SUCCESS POPUP
+======================================-->
+
+<div id="popup" class="popup">
+
+<div class="popup-content">
+
+<div class="popup-icon">
+
+<i class="fa-solid fa-circle-check"></i>
+
+</div>
+
+<h2 id="popupTitle">
+
+Success
+
+</h2>
+
+<p id="popupText">
+
+Task Added Successfully 🎉
+
+</p>
+
+<button id="popupBtn">
+
+OK
+
+</button>
+
+</div>
+
+</div>
+
+<!--=====================================
+    CONGRATULATIONS POPUP
+======================================-->
+
+<div id="congratsPopup" class="popup">
+
+<div class="popup-content congrats">
+
+<div class="popup-icon trophy">
+
+🏆
+
+</div>
+
+<h1>
+
+Congratulations!
+
+</h1>
+
+<p>
+
+🎉 You completed every task.
+
+Keep the momentum going!
+
+</p>
+
+<button id="closeCongrats">
+
+Awesome 🚀
+
+</button>
+
+</div>
+
+</div>
+
+<!--=====================================
+        POMODORO TIMER
+======================================-->
+
+<section class="pomodoro glass">
+
+<h2>
+
+🍅 Pomodoro Focus Timer
+
+</h2>
+
+<p>
+
+Focus for 25 minutes, then take a short break.
+
+</p>
+
+<div class="timer-circle">
+
+<h1 id="timer">
+
+25:00
+
+</h1>
+
+</div>
+
+<div class="timer-buttons">
+
+<button id="startTimer">
+
+<i class="fa-solid fa-play"></i>
+
+Start
+
+</button>
+
+<button id="pauseTimer">
+
+<i class="fa-solid fa-pause"></i>
+
+Pause
+
+</button>
+
+<button id="resetTimer">
+
+<i class="fa-solid fa-rotate-right"></i>
+
+Reset
+
+</button>
+
+</div>
+
+</section>
+
+<!--=====================================
+        ALARM SOUND
+======================================-->
+
+<audio id="alarmSound">
+
+<source
+
+src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"
+
+type="audio/ogg">
+
+</audio>
+
+<!--=====================================
+        FOOTER
+======================================-->
+
+<footer class="footer">
+
+<p>
+
+© 2026 TO-DO List.
+
+</p>
+
+<p>
+
+Designed & Developed by Uma
+
+</p>
+
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
+
 </html>

@@ -1,36 +1,39 @@
-# 🌟 Premium Productivity Dashboard
+# 🌟 To-Do List
 
-A modern, responsive, and feature-rich Productivity Dashboard built using **HTML**, **CSS**, and **JavaScript**. This project helps users organize daily tasks, improve productivity, and stay focused with a clean and professional interface.
+A modern, responsive, and feature-rich To-Do List application built using HTML, CSS, and JavaScript.
+
+It helps users organize daily tasks, improve productivity, and stay focused with an elegant purple glassmorphism interface.
 
 ---
 
 ## 🚀 Features
 
-- ✅ Add, Edit, Delete Tasks
-- ❤️ Mark Favorite Tasks
+- ✅ Add Tasks
+- ✏️ Edit Tasks
+- 🗑️ Delete Tasks
+- ❤️ Favorite Tasks
 - ✔️ Complete Tasks
-- 🔍 Live Search
+- 🔍 Search Tasks
 - 📂 Category Filter
-- ⭐ Task Sorting
 - 📅 Due Date & Time
-- ⏳ Remaining Time Countdown
-- 🚨 Overdue Task Highlight
-- 📊 Productivity Dashboard
-- 📈 Interactive Charts
-- 🌈 Animated Progress Ring
-- 🍅 Pomodoro Focus Timer
-- 🌙 Dark Mode
-- 💬 Motivational Quotes
-- ⏰ Real-Time Clock
+- 📊 Dashboard Cards
+- 📈 Task Statistics Charts
+- 🌈 Animated Rainbow Progress Ring
+- 🍅 Pomodoro Timer
+- ⏰ Live Clock
 - 📅 Live Date & Day
+- 👋 Dynamic Greeting
+- 💡 Motivational Quotes
+- 🌙 Dark Mode
 - 🔔 Toast Notifications
-- 🎉 Success & Congratulations Popups
-- 💾 Local Storage Support
-- 📱 Fully Responsive Design
+- 🎉 Success Popups
+- 🏆 Congratulations Popup
+- 💾 Local Storage
+- 📱 Responsive Design
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠 Technologies Used
 
 - HTML5
 - CSS3
@@ -41,54 +44,35 @@ A modern, responsive, and feature-rich Productivity Dashboard built using **HTML
 
 ---
 
-## 📱 Responsive Design
+## 📱 Responsive
 
-The application is optimized for:
+Works perfectly on
 
-- 📱 Mobile Phones
-- 📲 Tablets
-- 💻 Laptops
-- 🖥️ Desktop Screens
-
----
-
-## 🌙 User Experience
-
-The dashboard features a premium glassmorphism design with a colorful purple theme, smooth animations, dark mode support, and an intuitive interface designed to enhance productivity.
+- Mobile
+- Tablet
+- Laptop
+- Desktop
 
 ---
 
-## 📸 Project Highlights
+## 📂 Files
 
-- Modern UI/UX
-- Animated Dashboard
-- Real-Time Productivity Tracking
-- Responsive Layout
-- Interactive Charts
-- Beautiful Animations
+index.html
 
----
+style.css
 
-## 🎯 Future Improvements
+script.js
 
-- Cloud Sync
-- User Authentication
-- Recurring Tasks
-- Calendar Integration
-- Multiple Themes
-- Notifications & Reminders
-- Task Export (PDF/Excel)
+README.md
 
 ---
 
 ## 👩‍💻 Developer
 
-**Uma**
-
-Built as a portfolio project to demonstrate frontend development skills using HTML, CSS, and JavaScript.
+Uma
 
 ---
 
-## ⭐ Support
+## ⭐ GitHub
 
-If you like this project, consider giving it a ⭐ on GitHub.
+If you like this project, please give it a ⭐.

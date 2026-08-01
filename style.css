@@ -2355,12 +2355,34 @@ body.dark span{
 }
 .app-title{
 
-    font-size:2rem;
+    font-size:2.8rem;
 
     font-weight:700;
 
     color:#6d28d9;
 
     margin-bottom:8px;
+
+    letter-spacing:1px;
+
+}
+
+#greeting{
+
+    font-size:2rem;
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+    color:#7c3aed;
+
+}
+
+#quote{
+
+    font-size:1rem;
+
+    color:#7b6a9d;
 
 }

@@ -93,14 +93,13 @@ function showToast(message, icon = "fa-circle-check"){
 
     toast.classList.add("show");
 
-    setTimeout(() => {
+    clearTimeout(window.toastTimer);
 
-        toast.classList.remove("show");
+window.toastTimer=setTimeout(()=>{
 
-    },3000);
+    toast.classList.remove("show");
 
-}
-
+},2500);
 /*==================================================
             SUCCESS POPUP
 ==================================================*/
@@ -435,6 +434,17 @@ taskForm.addEventListener("submit",()=>{
 ==================================================*/
 
 function renderTasks(list = tasks){
+    list.sort((a,b)=>{
+
+    if(a.completed===b.completed){
+
+        return new Date(a.date+"T"+a.time)-new Date(b.date+"T"+b.time);
+
+    }
+
+    return a.completed-b.completed;
+
+});
 
     taskList.innerHTML = "";
 
@@ -463,12 +473,21 @@ function renderTasks(list = tasks){
     taskCount.textContent =
 
     `${list.length} Task${list.length > 1 ? "s" : ""}`;
-
+     const now=new Date();
     list.forEach(task=>{
+        const overdue=
+
+!task.completed &&
+
+new Date(task.date+"T"+task.time)<now;
 
         taskList.innerHTML += `
 
-<div class="task-card ${task.completed ? "completed" : ""}">
+<div class="task-card
+
+${task.completed ? "completed" : ""}
+
+${overdue ? "overdue" : ""}">
 
 <div class="task-title">
 
@@ -820,7 +839,9 @@ function updateProgress(total, completed){
 
     progressRing.style.strokeDasharray = circleLength;
 
-    progressRing.style.strokeDashoffset = offset;
+    progressRing.style.transition="stroke-dashoffset 1s ease";
+
+progressRing.style.strokeDashoffset=offset;
 
 }
 
@@ -947,13 +968,15 @@ function updateCharts(){
             data:{
 
                 labels:["Completed","Pending"],
-
-                datasets:[{
-
-                    data:[completed,pending]
-
-                }]
-
+              datasets:[{
+    data:[completed,pending],
+    backgroundColor:[
+        "#7c3aed",
+        "#f59e0b"
+    ],
+    borderRadius:12
+}]
+              
             },
 
             options:{
@@ -1005,14 +1028,19 @@ function updateCategoryChart(){
             data:{
 
                 labels:Object.keys(categoryCount),
-
-                datasets:[{
-
-                    label:"Tasks",
-
-                    data:Object.values(categoryCount)
-
-                }]
+             datasets:[{
+    label:"Tasks",
+    data:Object.values(categoryCount),
+    backgroundColor:[
+        "#7c3aed",
+        "#22c55e",
+        "#f59e0b",
+        "#3b82f6",
+        "#ec4899",
+        "#14b8a6"
+    ],
+    borderRadius:10
+}]
 
             },
 
@@ -1069,11 +1097,16 @@ function startPomodoro() {
     if (isRunning) return;
 
     isRunning = true;
+    startBtn.disabled=true;
+
+pauseBtn.disabled=false;
 
     timer = setInterval(() => {
 
-        totalSeconds--;
-
+        
+        if(totalSeconds > 0){
+    totalSeconds--;
+}
         updateTimerDisplay();
 
         if (totalSeconds <= 0) {
@@ -1111,6 +1144,7 @@ function pausePomodoro() {
     clearInterval(timer);
 
     isRunning = false;
+    startBtn.disabled=false;
 
     showToast(
         "Pomodoro Paused",
@@ -1124,7 +1158,7 @@ function resetPomodoro() {
     clearInterval(timer);
 
     isRunning = false;
-
+    startBtn.disabled=false;
     totalSeconds = 25 * 60;
 
     updateTimerDisplay();

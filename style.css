@@ -2013,3 +2013,43 @@ max-width:100%;
 display:block;
 
 }
+.task-card.completed h3{
+
+text-decoration:line-through;
+
+opacity:.7;
+
+}
+
+.task-card.completed p{
+
+text-decoration:line-through;
+
+opacity:.7;
+
+}
+
+.task-card.completed{
+
+opacity:.85;
+
+}
+.remaining-time{
+
+display:inline-block;
+
+margin-top:8px;
+
+padding:8px 14px;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.12);
+
+font-size:14px;
+
+font-weight:600;
+
+color:#fbbf24;
+
+}

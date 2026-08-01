@@ -2,109 +2,103 @@
         DOM ELEMENTS
 =========================================*/
 
-const taskForm=document.getElementById("taskForm");
+const taskForm = document.getElementById("taskForm");
 
-const taskTitle=document.getElementById("taskTitle");
+const taskTitle = document.getElementById("taskTitle");
 
-const taskDescription=document.getElementById("taskDescription");
+const taskDescription = document.getElementById("taskDescription");
 
-const taskCategory=document.getElementById("taskCategory");
+const taskCategory = document.getElementById("taskCategory");
 
-const taskPriority=document.getElementById("taskPriority");
+const taskPriority = document.getElementById("taskPriority");
 
-const taskDate=document.getElementById("taskDate");
+const taskDate = document.getElementById("taskDate");
 
-const taskTime=document.getElementById("taskTime");
+const taskTime = document.getElementById("taskTime");
 
-const taskList=document.getElementById("taskList");
+const taskList = document.getElementById("taskList");
 
-const searchTask=document.getElementById("searchTask");
+const searchTask = document.getElementById("searchTask");
 
-const filterCategory=document.getElementById("filterCategory");
+const filterCategory = document.getElementById("filterCategory");
 
-const totalTasks=document.getElementById("totalTasks");
+const totalTasks = document.getElementById("totalTasks");
 
-const completedTasks=document.getElementById("completedTasks");
+const completedTasks = document.getElementById("completedTasks");
 
-const pendingTasks=document.getElementById("pendingTasks");
+const pendingTasks = document.getElementById("pendingTasks");
 
-const taskCount=document.getElementById("taskCount");
+const taskCount = document.getElementById("taskCount");
 
-const remainingCount=document.getElementById("remainingCount");
+const remainingCount = document.getElementById("remainingCount");
 
-const nextDeadline=document.getElementById("nextDeadline");
+const nextDeadline = document.getElementById("nextDeadline");
 
-const progressPercent=document.getElementById("progressPercent");
+const progressPercent = document.getElementById("progressPercent");
 
-const progressRing=document.getElementById("progressRing");
+const progressRing = document.getElementById("progressRing");
 
-const greeting=document.getElementById("greeting");
+const greeting = document.getElementById("greeting");
 
-const quote=document.getElementById("quote");
+const quote = document.getElementById("quote");
 
-const clock=document.getElementById("clock");
+const clock = document.getElementById("clock");
 
-const todayDate=document.getElementById("todayDate");
+const todayDate = document.getElementById("todayDate");
 
-const todayDay=document.getElementById("todayDay");
+const todayDay = document.getElementById("todayDay");
 
-const themeToggle=document.getElementById("themeToggle");
+const themeToggle = document.getElementById("themeToggle");
 
-const toast=document.getElementById("toast");
+const toast = document.getElementById("toast");
 
-const toastMessage=document.getElementById("toastMessage");
+const toastMessage = document.getElementById("toastMessage");
 
-const toastIcon=document.getElementById("toastIcon");
+const toastIcon = document.getElementById("toastIcon");
 
-const popup=document.getElementById("popup");
+const popup = document.getElementById("popup");
 
-const popupTitle=document.getElementById("popupTitle");
+const popupTitle = document.getElementById("popupTitle");
 
-const popupText=document.getElementById("popupText");
+const popupText = document.getElementById("popupText");
 
-const popupBtn=document.getElementById("popupBtn");
+const popupBtn = document.getElementById("popupBtn");
 
-const congratsPopup=document.getElementById("congratsPopup");
+const congratsPopup = document.getElementById("congratsPopup");
 
-const closeCongrats=document.getElementById("closeCongrats");
+const closeCongrats = document.getElementById("closeCongrats");
 
-const alarmSound=document.getElementById("alarmSound");
+const alarmSound = document.getElementById("alarmSound");
 
-const timerDisplay=document.getElementById("timer");
+const timerDisplay = document.getElementById("timer");
 
-const startBtn=document.getElementById("startTimer");
+const startBtn = document.getElementById("startTimer");
 
-const pauseBtn=document.getElementById("pauseTimer");
+const pauseBtn = document.getElementById("pauseTimer");
 
-const resetBtn=document.getElementById("resetTimer");
+const resetBtn = document.getElementById("resetTimer");
 
 /*=========================================
         VARIABLES
 =========================================*/
 
-let tasks=
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-JSON.parse(
+let taskChart = null;
 
-localStorage.getItem("tasks")
+let categoryChart = null;
 
-)||[];
+let timer = null;
 
-let taskChart=null;
+let totalSeconds = 25 * 60;
 
-let categoryChart=null;
-
-let timer=null;
-
-let totalSeconds=25*60;
-
-let isRunning=false;
+let isRunning = false;
 
 /*=========================================
         MOTIVATIONAL QUOTES
 =========================================*/
 
-const quotes=[
+const quotes = [
 
 "Success starts with consistency.",
 
@@ -123,7 +117,6 @@ const quotes=[
 "Push yourself every single day."
 
 ];
-
 /*=========================================
         DARK MODE
 =========================================*/
@@ -146,7 +139,7 @@ localStorage.setItem("theme","dark");
 
 themeToggle.innerHTML='<i class="fa-solid fa-sun"></i>';
 
-showToast("Dark Mode Enabled 🌙");
+showToast("🌙 Dark Mode Enabled");
 
 }
 
@@ -156,41 +149,27 @@ localStorage.setItem("theme","light");
 
 themeToggle.innerHTML='<i class="fa-solid fa-moon"></i>';
 
-showToast("Light Mode Enabled ☀️");
+showToast("☀️ Light Mode Enabled");
 
 }
 
 });
 
 /*=========================================
-        CLOCK
+        LIVE CLOCK
 =========================================*/
 
 function updateClock(){
 
 const now=new Date();
 
-clock.textContent=
+clock.textContent=now.toLocaleTimeString("en-IN",{
 
-now.toLocaleTimeString(
+hour12:true
 
-"en-IN",
+});
 
-{
-
-hour12:false
-
-}
-
-);
-
-todayDate.textContent=
-
-now.toLocaleDateString(
-
-"en-IN",
-
-{
+todayDate.textContent=now.toLocaleDateString("en-IN",{
 
 day:"numeric",
 
@@ -198,23 +177,13 @@ month:"long",
 
 year:"numeric"
 
-}
+});
 
-);
-
-todayDay.textContent=
-
-now.toLocaleDateString(
-
-"en-IN",
-
-{
+todayDay.textContent=now.toLocaleDateString("en-IN",{
 
 weekday:"long"
 
-}
-
-);
+});
 
 const hour=now.getHours();
 
@@ -249,54 +218,36 @@ setInterval(updateClock,1000);
 updateClock();
 
 /*=========================================
-        RANDOM QUOTE
+        RANDOM QUOTES
 =========================================*/
 
 function randomQuote(){
 
 quote.textContent=
 
-quotes[
-
-Math.floor(
-
-Math.random()*quotes.length
-
-)
-
-];
+quotes[Math.floor(Math.random()*quotes.length)];
 
 }
 
 randomQuote();
 
-setInterval(randomQuote,10000);
+setInterval(randomQuote,15000);
 
 /*=========================================
-        TOAST
+        TOAST MESSAGE
 =========================================*/
 
-function showToast(
-
-message,
-
-icon="fa-circle-check"
-
-){
+function showToast(message,icon="fa-circle-check"){
 
 toastMessage.textContent=message;
 
-toastIcon.className=
-
-`fa-solid ${icon}`;
+toastIcon.className=`fa-solid ${icon}`;
 
 toast.classList.add("show");
 
 clearTimeout(window.toastTimer);
 
-window.toastTimer=
-
-setTimeout(()=>{
+window.toastTimer=setTimeout(()=>{
 
 toast.classList.remove("show");
 
@@ -308,13 +259,7 @@ toast.classList.remove("show");
         POPUP
 =========================================*/
 
-function showPopup(
-
-title,
-
-message
-
-){
+function showPopup(title,message){
 
 popupTitle.textContent=title;
 
@@ -341,7 +286,6 @@ closeCongrats.onclick=()=>{
 congratsPopup.classList.remove("show");
 
 };
-
 /*=========================================
         SAVE TASKS
 =========================================*/
@@ -402,11 +346,17 @@ saveTasks();
 
 renderTasks();
 
+updateRemainingTime();
+
 updateDashboard();
 
 updateCharts();
 
-showToast("Task Added Successfully 🎉");
+showToast(
+
+"Task Added Successfully 🎉"
+
+);
 
 showPopup(
 
@@ -426,33 +376,65 @@ taskForm.reset();
 
 function toggleComplete(id){
 
-tasks=tasks.map(task=>{
+const task=tasks.find(t=>t.id===id);
 
-if(task.id===id){
+if(!task) return;
 
-task.completed=!task.completed;
+if(!task.completed){
+
+if(!confirm("Mark this task as completed?")){
+
+return;
 
 }
 
-return task;
+}
 
-});
+task.completed=!task.completed;
 
 saveTasks();
 
 renderTasks();
 
+updateRemainingTime();
+
 updateDashboard();
 
 updateCharts();
 
-showToast("Task Completed ✅");
+if(task.completed){
+
+showToast(
+
+"Task Completed Successfully ✅"
+
+);
+
+showPopup(
+
+"Success",
+
+"Task Completed Successfully 🎉"
+
+);
+
+}
+
+else{
+
+showToast(
+
+"Task Marked as Pending"
+
+);
+
+}
 
 if(
 
 tasks.length>0 &&
 
-tasks.every(task=>task.completed)
+tasks.every(t=>t.completed)
 
 ){
 
@@ -484,7 +466,13 @@ saveTasks();
 
 renderTasks();
 
-showToast("Favorite Updated ❤️");
+updateRemainingTime();
+
+showToast(
+
+"Added To Favorites ❤️"
+
+);
 
 }
 
@@ -496,9 +484,7 @@ function deleteTask(id){
 
 if(!confirm("Delete this task?")) return;
 
-tasks=
-
-tasks.filter(
+tasks=tasks.filter(
 
 task=>task.id!==id
 
@@ -507,6 +493,8 @@ task=>task.id!==id
 saveTasks();
 
 renderTasks();
+
+updateRemainingTime();
 
 updateDashboard();
 
@@ -528,9 +516,7 @@ showToast(
 
 function editTask(id){
 
-const task=
-
-tasks.find(
+const task=tasks.find(
 
 t=>t.id===id
 
@@ -550,9 +536,7 @@ taskDate.value=task.date;
 
 taskTime.value=task.time;
 
-tasks=
-
-tasks.filter(
+tasks=tasks.filter(
 
 t=>t.id!==id
 
@@ -562,11 +546,17 @@ saveTasks();
 
 renderTasks();
 
+updateRemainingTime();
+
 updateDashboard();
 
 updateCharts();
 
-showToast("Edit Task ✏️");
+showToast(
+
+"Task Ready For Editing ✏️"
+
+);
 
 window.scrollTo({
 
@@ -587,9 +577,7 @@ let filtered=tasks.filter(task=>{
 
 const matchesSearch=
 
-task.title.toLowerCase()
-
-.includes(
+task.title.toLowerCase().includes(
 
 searchTask.value.toLowerCase()
 
@@ -607,9 +595,7 @@ return matchesSearch&&matchesCategory;
 
 taskList.innerHTML="";
 
-taskCount.textContent=
-
-`${filtered.length} Tasks`;
+taskCount.textContent=`${filtered.length} Tasks`;
 
 if(filtered.length===0){
 
@@ -677,6 +663,16 @@ ${task.priority}
 
 <span>⏰ ${task.time}</span>
 
+<span
+
+class="remaining-time"
+
+id="remaining-${task.id}">
+
+⏳ Calculating...
+
+</span>
+
 </div>
 
 <div class="task-actions">
@@ -729,7 +725,85 @@ onclick="deleteTask(${task.id})">
 
 });
 
+updateRemainingTime();
+
 }
+
+/*=========================================
+        REMAINING TIME
+=========================================*/
+
+function updateRemainingTime(){
+
+tasks.forEach(task=>{
+
+const element=document.getElementById(
+
+`remaining-${task.id}`
+
+);
+
+if(!element) return;
+
+const deadline=new Date(
+
+`${task.date}T${task.time}:00`
+
+);
+
+if(isNaN(deadline.getTime())){
+
+element.innerHTML="⚠️ Invalid Date";
+
+return;
+
+}
+
+const now=new Date();
+
+const diff=deadline-now;
+
+if(task.completed){
+
+element.innerHTML="✅ Completed";
+
+element.style.color="#22c55e";
+
+return;
+
+}
+
+if(diff<=0){
+
+element.innerHTML="🚨 Overdue";
+
+element.style.color="#ef4444";
+
+return;
+
+}
+
+const days=Math.floor(diff/86400000);
+
+const hours=Math.floor(
+
+(diff%86400000)/3600000
+
+);
+
+const minutes=Math.floor(
+
+(diff%3600000)/60000
+
+);
+
+element.innerHTML=
+
+`⏳ ${days}d ${hours}h ${minutes}m Left`;
+
+element.style.color="#fbbf24";
+
+});
 
 /*=========================================
         SEARCH
@@ -739,7 +813,13 @@ searchTask.addEventListener(
 
 "input",
 
-renderTasks
+()=>{
+
+renderTasks();
+
+updateRemainingTime();
+
+}
 
 );
 
@@ -751,9 +831,17 @@ filterCategory.addEventListener(
 
 "change",
 
-renderTasks
+()=>{
+
+renderTasks();
+
+updateRemainingTime();
+
+}
 
 );
+
+}
 /*=========================================
         DASHBOARD
 =========================================*/
@@ -766,9 +854,7 @@ const completed=
 
 tasks.filter(task=>task.completed).length;
 
-const pending=
-
-total-completed;
+const pending=total-completed;
 
 totalTasks.textContent=total;
 
@@ -776,9 +862,7 @@ completedTasks.textContent=completed;
 
 pendingTasks.textContent=pending;
 
-remainingCount.textContent=
-
-`${pending} Tasks Left`;
+remainingCount.textContent=`${pending} Tasks Left`;
 
 updateProgress(total,completed);
 
@@ -796,37 +880,21 @@ let percent=0;
 
 if(total>0){
 
-percent=Math.round(
-
-(completed/total)*100
-
-);
+percent=Math.round((completed/total)*100);
 
 }
 
-progressPercent.textContent=
+progressPercent.textContent=`${percent}%`;
 
-`${percent}%`;
+const radius=90;
 
-const radius=85;
+const circumference=2*Math.PI*radius;
 
-const circumference=
-
-2*Math.PI*radius;
-
-progressRing.style.strokeDasharray=
-
-circumference;
-
-const offset=
-
-circumference-
-
-(percent/100)*circumference;
+progressRing.style.strokeDasharray=circumference;
 
 progressRing.style.strokeDashoffset=
 
-offset;
+circumference-(percent/100)*circumference;
 
 }
 
@@ -836,19 +904,15 @@ offset;
 
 function updateNextDeadline(){
 
-const pendingTasksList=
-
-tasks
+const pendingTasksList=tasks
 
 .filter(task=>!task.completed)
 
-.sort(
+.sort((a,b)=>
 
-(a,b)=>
+new Date(`${a.date}T${a.time}`)-
 
-new Date(a.date+"T"+a.time)-
-
-new Date(b.date+"T"+b.time)
+new Date(`${b.date}T${b.time}`)
 
 );
 
@@ -864,6 +928,32 @@ return;
 
 const task=pendingTasksList[0];
 
+const deadline=new Date(`${task.date}T${task.time}`);
+
+const now=new Date();
+
+const diff=deadline-now;
+
+let remain="";
+
+if(diff>0){
+
+const d=Math.floor(diff/86400000);
+
+const h=Math.floor((diff%86400000)/3600000);
+
+const m=Math.floor((diff%3600000)/60000);
+
+remain=`⏳ ${d}d ${h}h ${m}m Left`;
+
+}
+
+else{
+
+remain="🚨 Overdue";
+
+}
+
 nextDeadline.innerHTML=
 
 `<strong>${task.title}</strong><br>
@@ -872,12 +962,16 @@ nextDeadline.innerHTML=
 
 &nbsp;&nbsp;
 
-⏰ ${task.time}`;
+⏰ ${task.time}
+
+<br>
+
+${remain}`;
 
 }
 
 /*=========================================
-        CHARTS
+        TASK CHART
 =========================================*/
 
 function updateCharts(){
@@ -886,9 +980,7 @@ const completed=
 
 tasks.filter(task=>task.completed).length;
 
-const pending=
-
-tasks.length-completed;
+const pending=tasks.length-completed;
 
 if(taskChart){
 
@@ -906,13 +998,7 @@ type:"doughnut",
 
 data:{
 
-labels:[
-
-"Completed",
-
-"Pending"
-
-],
+labels:["Completed","Pending"],
 
 datasets:[{
 
@@ -955,7 +1041,6 @@ position:"bottom"
 updateCategoryChart();
 
 }
-
 /*=========================================
         CATEGORY CHART
 =========================================*/
@@ -972,9 +1057,7 @@ const categories={};
 
 tasks.forEach(task=>{
 
-categories[task.category]=
-
-(categories[task.category]||0)+1;
+categories[task.category]=(categories[task.category]||0)+1;
 
 });
 
@@ -991,6 +1074,8 @@ data:{
 labels:Object.keys(categories),
 
 datasets:[{
+
+label:"Tasks",
 
 data:Object.values(categories),
 
@@ -1010,7 +1095,7 @@ backgroundColor:[
 
 ],
 
-borderRadius:10
+borderRadius:12
 
 }]
 
@@ -1047,31 +1132,49 @@ beginAtZero:true
 );
 
 }
+
+/*=========================================
+        INITIAL LOAD
+=========================================*/
+
+renderTasks();
+
+updateRemainingTime();
+
+updateDashboard();
+
+updateCharts();
+
+/*=========================================
+        LIVE REMAINING TIME
+=========================================*/
+
+setInterval(()=>{
+
+updateRemainingTime();
+
+updateNextDeadline();
+
+},60000);
 /*=========================================
         POMODORO TIMER
 =========================================*/
 
 function updateTimerDisplay(){
 
-const minutes=
-
-String(
+const minutes=String(
 
 Math.floor(totalSeconds/60)
 
 ).padStart(2,"0");
 
-const seconds=
-
-String(
+const seconds=String(
 
 totalSeconds%60
 
 ).padStart(2,"0");
 
-timerDisplay.textContent=
-
-`${minutes}:${seconds}`;
+timerDisplay.textContent=`${minutes}:${seconds}`;
 
 }
 
@@ -1081,7 +1184,13 @@ if(isRunning) return;
 
 isRunning=true;
 
-showToast("Pomodoro Started 🍅","fa-play");
+showToast(
+
+"Pomodoro Started 🍅",
+
+"fa-play"
+
+);
 
 timer=setInterval(()=>{
 
@@ -1101,7 +1210,7 @@ showPopup(
 
 "Pomodoro Complete 🎉",
 
-"Great Job! Time for a short break."
+"Time for a short break!"
 
 );
 
@@ -1188,16 +1297,6 @@ resetPomodoro
 updateTimerDisplay();
 
 /*=========================================
-        INITIAL LOAD
-=========================================*/
-
-renderTasks();
-
-updateDashboard();
-
-updateCharts();
-
-/*=========================================
         AUTO SAVE
 =========================================*/
 
@@ -1211,25 +1310,19 @@ saveTasks();
 
 }
 
+);
+
 /*=========================================
         KEYBOARD SHORTCUT
 =========================================*/
-
-);
 
 document.addEventListener(
 
 "keydown",
 
-(e)=>{
+e=>{
 
-if(
-
-e.ctrlKey &&
-
-e.key==="Enter"
-
-){
+if(e.ctrlKey&&e.key==="Enter"){
 
 e.preventDefault();
 
@@ -1237,107 +1330,19 @@ taskForm.requestSubmit();
 
 }
 
-});
-
-/*=========================================
-        ENTER ANIMATION
-=========================================*/
-
-document.addEventListener(
-
-"DOMContentLoaded",
-
-()=>{
-
-document.body.style.opacity="0";
-
-setTimeout(()=>{
-
-document.body.style.transition="opacity .6s";
-
-document.body.style.opacity="1";
-
-},100);
-
-});
-
-/*=========================================
-        SCROLL TO TOP
-=========================================*/
-
-function scrollTopSmooth(){
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-}
-
-/*=========================================
-        CLOSE POPUPS BY CLICKING OUTSIDE
-=========================================*/
-
-popup.addEventListener(
-
-"click",
-
-(e)=>{
-
-if(e.target===popup){
-
-popup.classList.remove("show");
-
-}
-
-});
-
-congratsPopup.addEventListener(
-
-"click",
-
-(e)=>{
-
-if(e.target===congratsPopup){
-
-congratsPopup.classList.remove("show");
-
-}
-
-});
-
-/*=========================================
-        SAFETY CHECKS
-=========================================*/
-
-if(progressRing){
-
-updateProgress(
-
-tasks.length,
-
-tasks.filter(task=>task.completed).length
-
-);
-
-}
-
-if(taskChart){
-
-updateCharts();
-
 }
 
 /*=========================================
         WINDOW LOAD
 =========================================*/
 
+);
+
 window.onload=()=>{
 
 renderTasks();
+
+updateRemainingTime();
 
 updateDashboard();
 
@@ -1353,6 +1358,115 @@ updateTimerDisplay();
 
 console.log(
 
-"✅ To-Do List Loaded Successfully"
+"✅ Premium To-Do List Loaded Successfully"
 
 );
+/*=========================================
+        CLOSE POPUPS
+=========================================*/
+
+popup.addEventListener("click",(e)=>{
+
+if(e.target===popup){
+
+popup.classList.remove("show");
+
+}
+
+});
+
+congratsPopup.addEventListener("click",(e)=>{
+
+if(e.target===congratsPopup){
+
+congratsPopup.classList.remove("show");
+
+}
+
+});
+
+/*=========================================
+        PAGE LOAD
+=========================================*/
+
+window.addEventListener("load",()=>{
+
+renderTasks();
+
+updateRemainingTime();
+
+updateDashboard();
+
+updateCharts();
+
+updateTimerDisplay();
+
+});
+
+/*=========================================
+        LIVE UPDATES
+=========================================*/
+
+setInterval(()=>{
+
+updateClock();
+
+updateRemainingTime();
+
+updateNextDeadline();
+
+},1000);
+
+/*=========================================
+        AUTO SAVE
+=========================================*/
+
+window.addEventListener("beforeunload",()=>{
+
+saveTasks();
+
+});
+
+/*=========================================
+        KEYBOARD SHORTCUTS
+=========================================*/
+
+document.addEventListener("keydown",(e)=>{
+
+if(e.ctrlKey&&e.key==="Enter"){
+
+e.preventDefault();
+
+taskForm.requestSubmit();
+
+}
+
+if(e.key==="Escape"){
+
+popup.classList.remove("show");
+
+congratsPopup.classList.remove("show");
+
+}
+
+});
+
+/*=========================================
+        FINAL INITIALIZATION
+=========================================*/
+
+updateClock();
+
+randomQuote();
+
+updateTimerDisplay();
+
+renderTasks();
+
+updateRemainingTime();
+
+updateDashboard();
+
+updateCharts();
+
+console.log("✅ Premium To-Do List Loaded Successfully");

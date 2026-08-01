@@ -1,6 +1,11 @@
 /*==================================================
-            DOM ELEMENTS
+        PREMIUM TO-DO LIST v2.0
+        PART 1
 ==================================================*/
+
+/*=========================================
+            DOM ELEMENTS
+=========================================*/
 
 const taskForm = document.getElementById("taskForm");
 
@@ -56,90 +61,99 @@ const congratsPopup = document.getElementById("congratsPopup");
 
 const closeCongrats = document.getElementById("closeCongrats");
 
-/*==================================================
-            GLOBAL VARIABLES
-==================================================*/
+const themeToggle = document.getElementById("themeToggle");
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+/*=============================
+        POMODORO
+=============================*/
 
-let taskChart;
+const timerDisplay = document.getElementById("timer");
 
-let categoryChart;
+const startBtn = document.getElementById("startTimer");
+
+const pauseBtn = document.getElementById("pauseTimer");
+
+const resetBtn = document.getElementById("resetTimer");
+
+/*=============================
+            CHARTS
+=============================*/
+
+let taskChart = null;
+
+let categoryChart = null;
+
+/*=============================
+        GLOBAL VARIABLES
+=============================*/
+
+let tasks = JSON.parse(
+
+localStorage.getItem("tasks")
+
+) || [];
 
 const circleLength = 408;
 
-/*==================================================
-            LOCAL STORAGE
-==================================================*/
+let timer = null;
+
+let totalSeconds = 25 * 60;
+
+let isRunning = false;
+
+/*=============================
+        LOCAL STORAGE
+=============================*/
 
 function saveTasks(){
 
     localStorage.setItem(
+
         "tasks",
+
         JSON.stringify(tasks)
+
     );
 
 }
 
-/*==================================================
-            TOAST NOTIFICATION
-==================================================*/
+/*=============================
+        LOAD STORAGE
+=============================*/
 
-function showToast(message, icon = "fa-circle-check"){
+function loadTasks(){
 
-    toastMessage.textContent = message;
+    const stored = localStorage.getItem("tasks");
 
-    toastIcon.className = `fa-solid ${icon}`;
+    if(stored){
 
-    toast.classList.add("show");
+        tasks = JSON.parse(stored);
 
-    clearTimeout(window.toastTimer);
-
-window.toastTimer=setTimeout(()=>{
-
-    toast.classList.remove("show");
-
-},2500);
-/*==================================================
-            SUCCESS POPUP
-==================================================*/
-
-function showPopup(title, message){
-
-    popupTitle.textContent = title;
-
-    popupText.textContent = message;
-
-    popup.classList.add("show");
+    }
 
 }
 
-popupBtn.onclick = () => {
+/*=============================
+        AUTO SAVE
+=============================*/
 
-    popup.classList.remove("show");
+window.addEventListener(
 
-};
+"beforeunload",
 
+saveTasks
+
+);
 /*==================================================
-        CONGRATULATIONS POPUP
+        PART 2
+        HEADER & UI
 ==================================================*/
 
-function showCongrats(){
+/*=========================================
+        MOTIVATIONAL QUOTES
+=========================================*/
 
-    congratsPopup.classList.add("show");
-
-}
-
-closeCongrats.onclick = () => {
-
-    congratsPopup.classList.remove("show");
-
-};
-/*==================================================
-            MOTIVATIONAL QUOTES
-==================================================*/
-
-const quotes = [
+const quotes=[
 
 "Success starts with self-discipline. 💜",
 
@@ -147,161 +161,297 @@ const quotes = [
 
 "Dream big. Work hard. Stay focused.",
 
-"Every task completed is one step closer to your goal.",
-
-"Don't watch the clock. Do what it does. Keep going.",
-
-"Believe in yourself and all that you are.",
+"Believe in yourself.",
 
 "Consistency beats motivation.",
 
-"You are stronger than your excuses."
+"Progress is progress.",
+
+"Stay focused and never give up.",
+
+"Every task completed is a victory."
 
 ];
 
-/*==================================================
-            RANDOM QUOTE
-==================================================*/
+/*=========================================
+        RANDOM QUOTE
+=========================================*/
 
 function showQuote(){
 
-    const quote = document.getElementById("quote");
+const random=
 
-    const random = Math.floor(Math.random()*quotes.length);
+Math.floor(
 
-    quote.textContent = quotes[random];
+Math.random()*quotes.length
+
+);
+
+document.getElementById("quote").textContent=
+
+quotes[random];
 
 }
 
-/*==================================================
-            LIVE CLOCK
-==================================================*/
+/*=========================================
+        LIVE CLOCK
+=========================================*/
 
 function updateClock(){
 
-    const now = new Date();
+const now=new Date();
 
-    const hour = String(now.getHours()).padStart(2,"0");
+const h=
 
-    const minute = String(now.getMinutes()).padStart(2,"0");
+String(now.getHours())
 
-    const second = String(now.getSeconds()).padStart(2,"0");
+.padStart(2,"0");
 
-    document.getElementById("clock").textContent =
+const m=
 
-    `${hour}:${minute}:${second}`;
+String(now.getMinutes())
+
+.padStart(2,"0");
+
+const s=
+
+String(now.getSeconds())
+
+.padStart(2,"0");
+
+document.getElementById("clock").textContent=
+
+`${h}:${m}:${s}`;
 
 }
 
-/*==================================================
-            DATE & DAY
-==================================================*/
+/*=========================================
+        DATE
+=========================================*/
 
 function updateDate(){
 
-    const now = new Date();
+const now=new Date();
 
-    const options = {
+document.getElementById("todayDate").textContent=
 
-        day:"numeric",
+now.toLocaleDateString(
 
-        month:"long",
+"en-IN",
 
-        year:"numeric"
+{
 
-    };
+day:"numeric",
 
-    const dayOptions = {
+month:"long",
 
-        weekday:"long"
-
-    };
-
-    document.getElementById("todayDate").textContent =
-
-    now.toLocaleDateString("en-IN",options);
-
-    document.getElementById("todayDay").textContent =
-
-    now.toLocaleDateString("en-IN",dayOptions);
+year:"numeric"
 
 }
 
-/*==================================================
-            GREETING
-==================================================*/
+);
+
+document.getElementById("todayDay").textContent=
+
+now.toLocaleDateString(
+
+"en-IN",
+
+{
+
+weekday:"long"
+
+}
+
+);
+
+}
+
+/*=========================================
+        GREETING
+=========================================*/
 
 function updateGreeting(){
 
-    const hour = new Date().getHours();
+const hour=new Date().getHours();
 
-    const greeting = document.getElementById("greeting");
+const greeting=
 
-    if(hour<12){
+document.getElementById("greeting");
 
-        greeting.textContent="Good Morning 🌞";
+if(hour<12){
 
-    }
+greeting.textContent=
 
-    else if(hour<17){
-
-        greeting.textContent="Good Afternoon ☀️";
-
-    }
-
-    else if(hour<20){
-
-        greeting.textContent="Good Evening 🌇";
-
-    }
-
-    else{
-
-        greeting.textContent="Good Night 🌙";
-
-    }
+"Good Morning 🌞";
 
 }
 
-/*==================================================
-            DARK MODE
-==================================================*/
+else if(hour<17){
 
-const themeToggle = document.getElementById("themeToggle");
+greeting.textContent=
 
-if(localStorage.getItem("theme")==="dark"){
-
-    document.body.classList.add("dark");
-
-    themeToggle.innerHTML='<i class="fa-solid fa-sun"></i>';
+"Good Afternoon ☀️";
 
 }
 
-themeToggle.addEventListener("click",()=>{
+else if(hour<20){
 
-    document.body.classList.toggle("dark");
+greeting.textContent=
 
-    if(document.body.classList.contains("dark")){
+"Good Evening 🌇";
 
-        localStorage.setItem("theme","dark");
+}
 
-        themeToggle.innerHTML='<i class="fa-solid fa-sun"></i>';
+else{
 
-    }
+greeting.textContent=
 
-    else{
+"Good Night 🌙";
 
-        localStorage.setItem("theme","light");
+}
 
-        themeToggle.innerHTML='<i class="fa-solid fa-moon"></i>';
+}
 
-    }
+/*=========================================
+        DARK MODE
+=========================================*/
 
-});
+if(
 
-/*==================================================
-            START CLOCK
-==================================================*/
+localStorage.getItem("theme")==="dark"
+
+){
+
+document.body.classList.add("dark");
+
+}
+
+themeToggle.addEventListener(
+
+"click",
+
+()=>{
+
+document.body.classList.toggle("dark");
+
+if(
+
+document.body.classList.contains("dark")
+
+){
+
+localStorage.setItem(
+
+"theme",
+
+"dark"
+
+);
+
+}
+
+else{
+
+localStorage.setItem(
+
+"theme",
+
+"light"
+
+);
+
+}
+
+}
+
+);
+
+/*=========================================
+        TOAST
+=========================================*/
+
+function showToast(
+
+message,
+
+icon="fa-circle-check"
+
+){
+
+toastMessage.textContent=message;
+
+toastIcon.className=
+
+`fa-solid ${icon}`;
+
+toast.classList.add("show");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+},2500);
+
+}
+
+/*=========================================
+        SUCCESS POPUP
+=========================================*/
+
+function showPopup(
+
+title,
+
+message
+
+){
+
+popupTitle.textContent=title;
+
+popupText.textContent=message;
+
+popup.classList.add("show");
+
+}
+
+popupBtn.onclick=()=>{
+
+popup.classList.remove("show");
+
+};
+
+/*=========================================
+        CONGRATS POPUP
+=========================================*/
+
+function showCongrats(){
+
+congratsPopup.classList.add(
+
+"show"
+
+);
+
+}
+
+closeCongrats.onclick=()=>{
+
+congratsPopup.classList.remove(
+
+"show"
+
+);
+
+};
+
+/*=========================================
+        START HEADER
+=========================================*/
 
 updateClock();
 
@@ -311,14 +461,31 @@ updateGreeting();
 
 showQuote();
 
-setInterval(updateClock,1000);
+setInterval(
 
-setInterval(updateGreeting,60000);
+updateClock,
+
+1000
+
+);
+
+setInterval(
+
+updateGreeting,
+
+60000
+
+);
 /*==================================================
-            ADD NEW TASK
+        PART 3
+        TASK MANAGEMENT
 ==================================================*/
 
-taskForm.addEventListener("submit", addTask);
+/*=========================================
+        ADD TASK
+=========================================*/
+
+taskForm.addEventListener("submit",addTask);
 
 function addTask(e){
 
@@ -382,9 +549,7 @@ function addTask(e){
 
     showToast(
 
-        "Task Added Successfully",
-
-        "fa-circle-check"
+        "Task Added Successfully 🎉"
 
     );
 
@@ -400,94 +565,182 @@ function addTask(e){
 
 }
 
-/*==================================================
-            CLEAR FORM
-==================================================*/
+/*=========================================
+        FAVORITE
+=========================================*/
 
-function clearForm(){
+function toggleFavorite(id){
 
-    taskTitle.value="";
+    tasks=tasks.map(task=>{
 
-    taskDescription.value="";
+        if(task.id===id){
 
-    taskCategory.selectedIndex=0;
+            task.favorite=!task.favorite;
 
-    taskPriority.selectedIndex=0;
+        }
 
-    taskDate.value="";
+        return task;
 
-    taskTime.value="";
+    });
+
+    saveTasks();
+
+    renderTasks();
+
+    updateDashboard();
+
+    updateCharts();
 
 }
 
-/*==================================================
-            RESET AFTER ADD
-==================================================*/
+/*=========================================
+        COMPLETE
+=========================================*/
 
-taskForm.addEventListener("submit",()=>{
+function toggleComplete(id){
 
-    setTimeout(clearForm,100);
+    tasks=tasks.map(task=>{
 
-});
-/*==================================================
-            RENDER ALL TASKS
-==================================================*/
+        if(task.id===id){
 
-function renderTasks(list = tasks){
-    list.sort((a,b)=>{
+            task.completed=!task.completed;
 
-    if(a.completed===b.completed){
+        }
 
-        return new Date(a.date+"T"+a.time)-new Date(b.date+"T"+b.time);
+        return task;
+
+    });
+
+    saveTasks();
+
+    renderTasks();
+
+    updateDashboard();
+
+    updateCharts();
+
+    if(
+
+        tasks.length>0 &&
+
+        tasks.every(task=>task.completed)
+
+    ){
+
+        showCongrats();
 
     }
 
-    return a.completed-b.completed;
+}
 
-});
+/*=========================================
+        DELETE
+=========================================*/
 
-    taskList.innerHTML = "";
+function deleteTask(id){
 
-    if(list.length === 0){
+    if(
 
-        taskList.innerHTML = `
+        !confirm(
 
-        <div class="empty-state">
+            "Delete this task?"
 
-            <i class="fa-solid fa-clipboard-list"></i>
+        )
 
-            <h2>No Tasks Yet</h2>
-
-            <p>Add your first task to get started 🚀</p>
-
-        </div>
-
-        `;
-
-        taskCount.textContent = "0 Tasks";
+    ){
 
         return;
 
     }
 
-    taskCount.textContent =
+    tasks=tasks.filter(
 
-    `${list.length} Task${list.length > 1 ? "s" : ""}`;
-     const now=new Date();
+        task=>task.id!==id
+
+    );
+
+    saveTasks();
+
+    renderTasks();
+
+    updateDashboard();
+
+    updateCharts();
+
+    showToast(
+
+        "Task Deleted 🗑️",
+
+        "fa-trash"
+
+    );
+
+}
+/*==================================================
+        PART 4
+        RENDER TASKS
+==================================================*/
+
+function renderTasks(list = tasks){
+
+    const now = new Date();
+
+    list.sort((a,b)=>{
+
+        if(a.completed===b.completed){
+
+            return new Date(a.date+"T"+a.time)-
+            new Date(b.date+"T"+b.time);
+
+        }
+
+        return a.completed-b.completed;
+
+    });
+
+    taskList.innerHTML="";
+
+    if(list.length===0){
+
+        taskList.innerHTML=`
+
+<div class="empty-state">
+
+<i class="fa-solid fa-clipboard-list"></i>
+
+<h2>No Tasks Yet</h2>
+
+<p>Add your first task 🚀</p>
+
+</div>
+
+`;
+
+        taskCount.textContent="0 Tasks";
+
+        return;
+
+    }
+
+    taskCount.textContent=
+
+`${list.length} Task${list.length>1?"s":""}`;
+
     list.forEach(task=>{
+
         const overdue=
 
-!task.completed &&
+        !task.completed &&
 
-new Date(task.date+"T"+task.time)<now;
+        new Date(task.date+"T"+task.time)<now;
 
-        taskList.innerHTML += `
+        taskList.innerHTML+=`
 
 <div class="task-card
 
-${task.completed ? "completed" : ""}
+${task.completed?"completed":""}
 
-${overdue ? "overdue" : ""}">
+${overdue?"overdue":""}">
 
 <div class="task-title">
 
@@ -503,29 +756,17 @@ ${task.priority}
 
 <p class="task-description">
 
-${task.description || "No description"}
+${task.description||"No description"}
 
 </p>
 
 <div class="task-details">
 
-<span>
+<span>📂 ${task.category}</span>
 
-📂 ${task.category}
+<span>📅 ${task.date}</span>
 
-</span>
-
-<span>
-
-📅 ${task.date}
-
-</span>
-
-<span>
-
-⏰ ${task.time}
-
-</span>
+<span>⏰ ${task.time}</span>
 
 <span class="remaining-time">
 
@@ -541,13 +782,11 @@ ${getRemainingTime(task)}
 
 class="favorite-btn"
 
-onclick="toggleFavorite(${task.id})"
+onclick="toggleFavorite(${task.id})">
 
-title="Favourite">
+${task.favorite?
 
-${task.favorite ?
-
-'<i class="fa-solid fa-heart"></i>' :
+'<i class="fa-solid fa-heart"></i>':
 
 '<i class="fa-regular fa-heart"></i>'}
 
@@ -557,9 +796,7 @@ ${task.favorite ?
 
 class="complete-btn"
 
-onclick="toggleComplete(${task.id})"
-
-title="Complete">
+onclick="toggleComplete(${task.id})">
 
 <i class="fa-solid fa-check"></i>
 
@@ -569,9 +806,7 @@ title="Complete">
 
 class="delete-btn"
 
-onclick="deleteTask(${task.id})"
-
-title="Delete">
+onclick="deleteTask(${task.id})">
 
 <i class="fa-solid fa-trash"></i>
 
@@ -588,7 +823,7 @@ title="Delete">
 }
 
 /*==================================================
-        LIVE REMAINING TIME
+        REMAINING TIME
 ==================================================*/
 
 function getRemainingTime(task){
@@ -599,357 +834,285 @@ function getRemainingTime(task){
 
     }
 
-    const now = new Date();
+    const now=new Date();
 
-    const deadline = new Date(
+    const deadline=
 
-        task.date + "T" + task.time
+    new Date(task.date+"T"+task.time);
 
-    );
+    const diff=deadline-now;
 
-    const diff = deadline - now;
-
-    if(diff <= 0){
+    if(diff<=0){
 
         return "❌ Overdue";
 
     }
 
-    const days =
+    const days=
 
-    Math.floor(diff / (1000*60*60*24));
+    Math.floor(diff/86400000);
 
-    const hours =
-
-    Math.floor(
-
-    (diff % (1000*60*60*24))
-
-    /(1000*60*60)
-
-    );
-
-    const minutes =
+    const hours=
 
     Math.floor(
 
-    (diff % (1000*60*60))
-
-    /(1000*60)
+    (diff%86400000)/3600000
 
     );
 
-    if(days > 0){
+    const minutes=
 
-        return `⏳ ${days}d ${hours}h Left`;
+    Math.floor(
+
+    (diff%3600000)/60000
+
+    );
+
+    if(days>0){
+
+        return `⏳ ${days}d ${hours}h`;
 
     }
 
-    if(hours > 0){
+    if(hours>0){
 
-        return `⏳ ${hours}h ${minutes}m Left`;
+        return `⏳ ${hours}h ${minutes}m`;
 
     }
 
-    return `⏳ ${minutes}m Left`;
+    return `⏳ ${minutes}m`;
 
 }
 
 /*==================================================
-        AUTO UPDATE COUNTDOWN
+        SEARCH + FILTER
 ==================================================*/
 
-setInterval(()=>{
+searchTask.addEventListener(
 
-    renderTasks();
+"input",
 
-},60000);
-/*==================================================
-            TOGGLE FAVORITE
-==================================================*/
+applyFilters
 
-function toggleFavorite(id){
+);
 
-    tasks = tasks.map(task => {
+filterCategory.addEventListener(
 
-        if(task.id === id){
+"change",
 
-            task.favorite = !task.favorite;
+applyFilters
 
-        }
+);
 
-        return task;
+function applyFilters(){
 
-    });
+    let filtered=[...tasks];
 
-    saveTasks();
+    const search=
 
-    renderTasks();
+    searchTask.value
 
-    updateDashboard();
+    .toLowerCase()
 
-    updateCharts();
+    .trim();
 
-    const task = tasks.find(t => t.id === id);
+    if(search){
 
-    showToast(
+        filtered=
 
-        task.favorite ?
+        filtered.filter(task=>
 
-        "Added to Favorites ❤️"
+        task.title
 
-        :
+        .toLowerCase()
 
-        "Removed from Favorites 🤍",
+        .includes(search)
 
-        "fa-heart"
+        ||
 
-    );
+        task.description
 
-}
+        .toLowerCase()
 
-/*==================================================
-            COMPLETE TASK
-==================================================*/
+        .includes(search)
 
-function toggleComplete(id){
-
-    tasks = tasks.map(task => {
-
-        if(task.id === id){
-
-            task.completed = !task.completed;
-
-        }
-
-        return task;
-
-    });
-
-    saveTasks();
-
-    renderTasks();
-
-    updateDashboard();
-
-    updateCharts();
-
-    const completed = tasks.filter(task => task.completed).length;
-
-    if(completed === tasks.length && tasks.length > 0){
-
-        showCongrats();
+        );
 
     }
 
-    showToast(
+    if(
 
-        "Task Completed Successfully 🎉",
+        filterCategory.value!=="All"
 
-        "fa-circle-check"
+    ){
 
-    );
+        filtered=
 
-}
+        filtered.filter(task=>
 
-/*==================================================
-                DELETE TASK
-==================================================*/
+        task.category===
 
-function deleteTask(id){
+        filterCategory.value
 
-    if(!confirm("Delete this task?")){
-
-        return;
+        );
 
     }
 
-    tasks = tasks.filter(task => task.id !== id);
-
-    saveTasks();
-
-    renderTasks();
-
-    updateDashboard();
-
-    updateCharts();
-
-    showToast(
-
-        "Task Deleted Successfully 🗑️",
-
-        "fa-trash"
-
-    );
+    renderTasks(filtered);
 
 }
-
 /*==================================================
-        INITIAL RENDER
-==================================================*/
-
-renderTasks();
-
-updateDashboard();
-
-updateCharts();
-/*==================================================
-            UPDATE DASHBOARD
+        PART 5
+        DASHBOARD
 ==================================================*/
 
 function updateDashboard(){
 
-    const total = tasks.length;
+    const total=tasks.length;
 
-    const completed = tasks.filter(task => task.completed).length;
+    const completed=
 
-    const pending = total - completed;
+    tasks.filter(
 
-    totalTasks.textContent = total;
+    task=>task.completed
 
-    completedTasks.textContent = completed;
+    ).length;
 
-    pendingTasks.textContent = pending;
+    const pending=
 
-    remainingCount.textContent = `${pending} Remaining`;
+    total-completed;
 
-    updateProgress(total, completed);
+    totalTasks.textContent=total;
+
+    completedTasks.textContent=completed;
+
+    pendingTasks.textContent=pending;
+
+    remainingCount.textContent=
+
+`${pending} Task${pending!==1?"s":""} Left`;
+
+    updateProgress(
+
+    total,
+
+    completed
+
+    );
 
     updateNextDeadline();
 
 }
 
 /*==================================================
-            PROGRESS RING
+        PROGRESS RING
 ==================================================*/
 
-function updateProgress(total, completed){
+function updateProgress(
 
-    let percent = 0;
+total,
 
-    if(total > 0){
+completed
 
-        percent = Math.round((completed / total) * 100);
+){
+
+    let percent=0;
+
+    if(total>0){
+
+        percent=
+
+        Math.round(
+
+        (completed/total)*100
+
+        );
 
     }
 
-    progressPercent.textContent = percent + "%";
+    progressPercent.textContent=
 
-    const offset = circleLength - (percent / 100) * circleLength;
+`${percent}%`;
 
-    progressRing.style.strokeDasharray = circleLength;
+    const offset=
 
-    progressRing.style.transition="stroke-dashoffset 1s ease";
+    circleLength-
 
-progressRing.style.strokeDashoffset=offset;
+    (circleLength*percent)/100;
+
+    progressRing.style.transition=
+
+    "stroke-dashoffset 1s ease";
+
+    progressRing.style.strokeDashoffset=
+
+    offset;
 
 }
 
 /*==================================================
-            NEXT DEADLINE
+        NEXT DEADLINE
 ==================================================*/
 
 function updateNextDeadline(){
 
-    const pendingTasksList = tasks
-        .filter(task => !task.completed)
-        .sort((a,b)=>{
+    const pending=
 
-            const first = new Date(a.date + "T" + a.time);
+    tasks
 
-            const second = new Date(b.date + "T" + b.time);
+    .filter(task=>!task.completed)
 
-            return first - second;
+    .sort(
 
-        });
+    (a,b)=>
 
-    if(pendingTasksList.length === 0){
+    new Date(a.date+"T"+a.time)-
 
-        nextDeadline.textContent = "No Pending Tasks 🎉";
+    new Date(b.date+"T"+b.time)
+
+    );
+
+    if(pending.length===0){
+
+        nextDeadline.innerHTML=
+
+        "🎉 All tasks completed!";
 
         return;
 
     }
 
-    const next = pendingTasksList[0];
+    const next=pending[0];
 
-    nextDeadline.textContent =
-        `${next.title} • ${next.date} ${next.time}`;
+    nextDeadline.innerHTML=
 
-}
+`🎯 <strong>${next.title}</strong>
 
-/*==================================================
-            REFRESH DASHBOARD
-==================================================*/
+<br>
 
-function refreshDashboard(){
+📅 ${next.date}
 
-    updateDashboard();
-
-    renderTasks();
+⏰ ${next.time}`;
 
 }
 
 /*==================================================
-        INITIAL DASHBOARD LOAD
-==================================================*/
-
-refreshDashboard();
-/*==================================================
-                LIVE SEARCH
-==================================================*/
-
-searchTask.addEventListener("input", applyFilters);
-
-filterCategory.addEventListener("change", applyFilters);
-
-
-function applyFilters(){
-
-    let filteredTasks = [...tasks];
-
-    /* Search */
-
-    const search = searchTask.value
-        .toLowerCase()
-        .trim();
-
-    if(search){
-
-        filteredTasks = filteredTasks.filter(task =>
-
-            task.title.toLowerCase().includes(search) ||
-
-            task.description.toLowerCase().includes(search)
-
-        );
-
-    }
-
-    /* Category Filter */
-
-    if(filterCategory.value !== "All"){
-
-        filteredTasks = filteredTasks.filter(task =>
-
-            task.category === filterCategory.value
-
-        );
-
-    }
-renderTasks(filteredTasks);
-
-}
-
-/*==================================================
-            TASK OVERVIEW CHART
+        CHARTS
 ==================================================*/
 
 function updateCharts(){
 
-    const completed = tasks.filter(task=>task.completed).length;
+    const completed=
 
-    const pending = tasks.length - completed;
+    tasks.filter(
+
+    task=>task.completed
+
+    ).length;
+
+    const pending=
+
+    tasks.length-completed;
 
     if(taskChart){
 
@@ -957,37 +1120,67 @@ function updateCharts(){
 
     }
 
-    taskChart = new Chart(
+    taskChart=
 
-        document.getElementById("taskChart"),
+    new Chart(
 
-        {
+    document.getElementById("taskChart"),
 
-            type:"doughnut",
+    {
 
-            data:{
+        type:"doughnut",
 
-                labels:["Completed","Pending"],
-              datasets:[{
-    data:[completed,pending],
-    backgroundColor:[
-        "#7c3aed",
-        "#f59e0b"
-    ],
-    borderRadius:12
-}]
-              
-            },
+        data:{
 
-            options:{
+            labels:[
 
-                responsive:true,
+            "Completed",
 
-                maintainAspectRatio:false
+            "Pending"
+
+            ],
+
+            datasets:[{
+
+                data:[
+
+                completed,
+
+                pending
+
+                ],
+
+                backgroundColor:[
+
+                "#7c3aed",
+
+                "#f59e0b"
+
+                ],
+
+                borderRadius:10
+
+            }]
+
+        },
+
+        options:{
+
+            responsive:true,
+
+            plugins:{
+
+                legend:{
+
+                    position:"bottom"
+
+                }
 
             }
 
         }
+
+    }
 
     );
 
@@ -996,20 +1189,10 @@ function updateCharts(){
 }
 
 /*==================================================
-            CATEGORY CHART
+        CATEGORY CHART
 ==================================================*/
 
 function updateCategoryChart(){
-
-    const categoryCount = {};
-
-    tasks.forEach(task=>{
-
-        categoryCount[task.category] =
-
-        (categoryCount[task.category] || 0) + 1;
-
-    });
 
     if(categoryChart){
 
@@ -1017,200 +1200,255 @@ function updateCategoryChart(){
 
     }
 
-    categoryChart = new Chart(
+    const count={};
 
-        document.getElementById("categoryChart"),
+    tasks.forEach(task=>{
 
-        {
+        count[task.category]=
 
-            type:"bar",
+        (count[task.category]||0)+1;
 
-            data:{
+    });
 
-                labels:Object.keys(categoryCount),
-             datasets:[{
-    label:"Tasks",
-    data:Object.values(categoryCount),
-    backgroundColor:[
-        "#7c3aed",
-        "#22c55e",
-        "#f59e0b",
-        "#3b82f6",
-        "#ec4899",
-        "#14b8a6"
-    ],
-    borderRadius:10
-}]
+    categoryChart=
+
+    new Chart(
+
+    document.getElementById("categoryChart"),
+
+    {
+
+        type:"bar",
+
+        data:{
+
+            labels:
+
+            Object.keys(count),
+
+            datasets:[{
+
+                label:"Tasks",
+
+                data:
+
+                Object.values(count),
+
+                backgroundColor:[
+
+                "#7c3aed",
+
+                "#22c55e",
+
+                "#f59e0b",
+
+                "#3b82f6",
+
+                "#ec4899",
+
+                "#14b8a6"
+
+                ],
+
+                borderRadius:10
+
+            }]
+
+        },
+
+        options:{
+
+            responsive:true,
+
+            plugins:{
+
+                legend:{
+
+                    display:false
+
+                }
 
             },
 
-            options:{
+            scales:{
 
-                responsive:true,
+                y:{
 
-                maintainAspectRatio:false
+                    beginAtZero:true
+
+                }
 
             }
 
         }
 
+    }
+
     );
 
 }
-
 /*==================================================
-        INITIALIZE FILTERS & CHARTS
+        PART 6
+        POMODORO TIMER
 ==================================================*/
 
-applyFilters();
+const alarmSound = document.getElementById("alarmSound");
 
-updateCharts();
+/*=========================================
+        UPDATE TIMER
+=========================================*/
 
-/*==================================================
-            POMODORO TIMER
-==================================================*/
+function updateTimerDisplay(){
 
-let timer;
-let totalSeconds = 25 * 60;
-let isRunning = false;
+    const minutes = Math.floor(totalSeconds / 60);
 
-const timerDisplay = document.getElementById("timer");
-const startBtn = document.getElementById("startTimer");
-const pauseBtn = document.getElementById("pauseTimer");
-const resetBtn = document.getElementById("resetTimer");
-function updateTimerDisplay() {
+    const seconds = totalSeconds % 60;
 
-    const minutes = Math.floor(totalSeconds / 60)
-        .toString()
-        .padStart(2, "0");
+    timerDisplay.textContent =
 
-    const seconds = (totalSeconds % 60)
-        .toString()
-        .padStart(2, "0");
-
-    timerDisplay.textContent = `${minutes}:${seconds}`;
+    `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
 
 }
 
-function startPomodoro() {
+/*=========================================
+        START TIMER
+=========================================*/
 
-    if (isRunning) return;
+function startPomodoro(){
+
+    if(isRunning) return;
 
     isRunning = true;
-    startBtn.disabled=true;
 
-pauseBtn.disabled=false;
+    startBtn.disabled = true;
 
-    timer = setInterval(() => {
+    pauseBtn.disabled = false;
 
-        
+    timer = setInterval(()=>{
+
         if(totalSeconds > 0){
-    totalSeconds--;
-}
-        updateTimerDisplay();
 
-        if (totalSeconds <= 0) {
+            totalSeconds--;
+
+            updateTimerDisplay();
+
+        }
+
+        else{
 
             clearInterval(timer);
 
             isRunning = false;
 
+            startBtn.disabled = false;
+
+            alarmSound.play();
+
             showToast(
-                "Pomodoro Completed 🍅",
-                "fa-clock"
+
+                "Pomodoro Completed 🍅"
+
             );
 
             showPopup(
-                "Time's Up!",
-                "Great job! Take a 5-minute break."
+
+                "Congratulations 🎉",
+
+                "Time is up! Take a short break."
+
             );
-
-            const alarm = document.getElementById("alarmSound");
-
-            if (alarm) {
-
-                alarm.play();
-
-            }
 
         }
 
-    }, 1000);
+    },1000);
 
 }
 
-function pausePomodoro() {
+/*=========================================
+        PAUSE TIMER
+=========================================*/
+
+function pausePomodoro(){
 
     clearInterval(timer);
 
     isRunning = false;
-    startBtn.disabled=false;
 
-    showToast(
-        "Pomodoro Paused",
-        "fa-pause"
-    );
+    startBtn.disabled = false;
 
 }
 
-function resetPomodoro() {
+/*=========================================
+        RESET TIMER
+=========================================*/
+
+function resetPomodoro(){
 
     clearInterval(timer);
 
     isRunning = false;
-    startBtn.disabled=false;
+
     totalSeconds = 25 * 60;
 
     updateTimerDisplay();
 
-    showToast(
-        "Pomodoro Reset",
-        "fa-rotate-left"
-    );
+    startBtn.disabled = false;
 
 }
 
-if (startBtn) {
+/*=========================================
+        BUTTON EVENTS
+=========================================*/
 
-    startBtn.addEventListener("click", startPomodoro);
+startBtn.addEventListener(
 
-}
+    "click",
 
-if (pauseBtn) {
+    startPomodoro
 
-    pauseBtn.addEventListener("click", pausePomodoro);
+);
 
-}
+pauseBtn.addEventListener(
 
-if (resetBtn) {
+    "click",
 
-    resetBtn.addEventListener("click", resetPomodoro);
+    pausePomodoro
 
-}
+);
 
+resetBtn.addEventListener(
+
+    "click",
+
+    resetPomodoro
+
+);
+
+/*=========================================
+        INITIAL TIMER
+=========================================*/
+
+updateTimerDisplay();
 /*==================================================
-        AUTO UPDATE REMAINING TIME
+        PART 7
+        APP INITIALIZATION
 ==================================================*/
 
-setInterval(() => {
+/*=========================================
+        LOAD APPLICATION
+=========================================*/
+
+function initializeApp(){
+
+    loadTasks();
 
     renderTasks();
 
     updateDashboard();
 
-}, 60000);
+    updateCharts();
 
-/*==================================================
-            INITIALIZE APP
-==================================================*/
-window.addEventListener("DOMContentLoaded", () => {
-
-    // Hide all popups/toasts on page load
-    toast.classList.remove("show");
-
-    popup.classList.remove("show");
-
-    congratsPopup.classList.remove("show");
+    updateTimerDisplay();
 
     updateClock();
 
@@ -1220,7 +1458,97 @@ window.addEventListener("DOMContentLoaded", () => {
 
     showQuote();
 
-    updateTimerDisplay();
+}
+
+/*=========================================
+        AUTO REFRESH
+=========================================*/
+
+setInterval(()=>{
+
+    renderTasks();
+
+    updateDashboard();
+
+},60000);
+
+/*=========================================
+        PAGE LOAD
+=========================================*/
+
+window.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+    initializeApp();
+
+});
+
+/*=========================================
+        SAVE AUTOMATICALLY
+=========================================*/
+
+window.addEventListener(
+
+"beforeunload",
+
+()=>{
+
+    saveTasks();
+
+});
+
+/*=========================================
+        CLEAR SEARCH
+=========================================*/
+
+if(searchTask){
+
+    searchTask.value="";
+
+}
+
+/*=========================================
+        DEFAULT FILTER
+=========================================*/
+
+if(filterCategory){
+
+    filterCategory.value="All";
+
+}
+
+/*=========================================
+        FIRST RENDER
+=========================================*/
+
+renderTasks();
+
+updateDashboard();
+
+updateCharts();
+
+/*=========================================
+        PROGRESS RING DEFAULT
+=========================================*/
+
+progressRing.style.strokeDasharray=circleLength;
+
+progressRing.style.strokeDashoffset=circleLength;
+/*==================================================
+        PART 8
+        FINAL POLISH
+==================================================*/
+
+/*=========================================
+        SAVE AFTER EVERY CHANGE
+=========================================*/
+
+function refreshApp(){
+
+    saveTasks();
 
     renderTasks();
 
@@ -1228,16 +1556,84 @@ window.addEventListener("DOMContentLoaded", () => {
 
     updateCharts();
 
-    applyFilters();
+}
+
+/*=========================================
+        ENTER KEY
+=========================================*/
+
+taskTitle.addEventListener("keypress",(e)=>{
+
+    if(e.key==="Enter"){
+
+        e.preventDefault();
+
+        taskForm.requestSubmit();
+
+    }
 
 });
 
-/*==================================================
-            AUTO SAVE
-==================================================*/
+/*=========================================
+        AUTO FOCUS
+=========================================*/
 
-window.addEventListener("beforeunload", () => {
+window.addEventListener("load",()=>{
 
-    saveTasks();
+    taskTitle.focus();
 
 });
+
+/*=========================================
+        ESC CLOSE POPUP
+=========================================*/
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        popup.classList.remove("show");
+
+        congratsPopup.classList.remove("show");
+
+    }
+
+});
+
+/*=========================================
+        CLICK OUTSIDE POPUP
+=========================================*/
+
+popup.addEventListener("click",(e)=>{
+
+    if(e.target===popup){
+
+        popup.classList.remove("show");
+
+    }
+
+});
+
+congratsPopup.addEventListener("click",(e)=>{
+
+    if(e.target===congratsPopup){
+
+        congratsPopup.classList.remove("show");
+
+    }
+
+});
+
+/*=========================================
+        INITIAL LOAD
+=========================================*/
+
+initializeApp();
+
+console.log(
+
+"%cPremium To-Do List v2.0 Loaded Successfully 🚀",
+
+"color:#7c3aed;font-size:18px;font-weight:bold;"
+
+);

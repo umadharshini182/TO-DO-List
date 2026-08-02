@@ -186,33 +186,19 @@ weekday:"long"
 });
 
 const hour=now.getHours();
-
-if(hour<12){
-
-greeting.textContent="Good Morning ☀️";
-
+if(hour < 12){
+    greeting.textContent = "Good Morning ☀️";
 }
-
-else if(hour<17){
-
-greeting.textContent="Good Afternoon 🌤️";
-
+else if(hour < 16){
+    greeting.textContent = "Good Afternoon 🌤️";
 }
-
-else if(hour<20){
-
-greeting.textContent="Good Evening 🌆";
-
+else if(hour < 20){
+    greeting.textContent = "Good Evening 🌆";
 }
-
 else{
-
-greeting.textContent="Good Night 🌙";
-
+    greeting.textContent = "Good Night 🌙";
 }
-
 }
-
 setInterval(updateClock,1000);
 
 updateClock();
@@ -1263,13 +1249,12 @@ taskForm.requestSubmit();
 
 }
 
-}
+});
 
 /*=========================================
         WINDOW LOAD
 =========================================*/
 
-);
 
 window.onload=()=>{
 
@@ -1403,4 +1388,3 @@ updateDashboard();
 updateCharts();
 
 console.log("✅ Premium To-Do List Loaded Successfully");
-console.log(window.db);

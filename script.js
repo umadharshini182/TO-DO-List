@@ -1403,3 +1403,4 @@ updateDashboard();
 updateCharts();
 
 console.log("✅ Premium To-Do List Loaded Successfully");
+console.log(window.db);

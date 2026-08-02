@@ -455,20 +455,23 @@ color:#fff;
 /*=========================================
         DASHBOARD
 =========================================*/
-
 .dashboard{
 
 display:grid;
 
 grid-template-columns:repeat(4,1fr);
 
-gap:25px;
+gap:40px;
+
+margin-top:35px;
+
+margin-bottom:40px;
 
 }
 
 .dashboard-card{
 
-padding:28px;
+padding:38px;
 
 display:flex;
 
@@ -546,7 +549,7 @@ justify-content:center;
 
 align-items:center;
 
-padding:20px;
+padding:38px;
 
 position:relative;
 

@@ -511,63 +511,6 @@ showToast(
 }
 
 /*=========================================
-        EDIT
-=========================================*/
-
-function editTask(id){
-
-const task=tasks.find(
-
-t=>t.id===id
-
-);
-
-if(!task) return;
-
-taskTitle.value=task.title;
-
-taskDescription.value=task.description;
-
-taskCategory.value=task.category;
-
-taskPriority.value=task.priority;
-
-taskDate.value=task.date;
-
-taskTime.value=task.time;
-
-tasks=tasks.filter(
-
-t=>t.id!==id
-
-);
-
-saveTasks();
-
-renderTasks();
-
-updateRemainingTime();
-
-updateDashboard();
-
-updateCharts();
-
-showToast(
-
-"Task Ready For Editing ✏️"
-
-);
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-}
-/*=========================================
         RENDER TASKS
 =========================================*/
 
@@ -684,16 +627,6 @@ class="favorite-btn"
 onclick="toggleFavorite(${task.id})">
 
 <i class="fa-solid fa-heart"></i>
-
-</button>
-
-<button
-
-class="edit-btn"
-
-onclick="editTask(${task.id})">
-
-<i class="fa-solid fa-pen"></i>
 
 </button>
 

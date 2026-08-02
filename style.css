@@ -2050,3 +2050,48 @@ font-weight:600;
 color:#fbbf24;
 
 }
+/* ==========================
+   DARK MODE POPUP
+========================== */
+
+body.dark .popup-content{
+
+background: linear-gradient(135deg,#1e1b4b,#312e81);
+
+color:#ffffff;
+
+border:1px solid rgba(255,255,255,0.15);
+
+box-shadow:0 20px 50px rgba(0,0,0,0.5);
+
+}
+
+body.dark .popup-content h1,
+body.dark .popup-content h2{
+
+color:#ffffff;
+
+}
+
+body.dark .popup-content p{
+
+color:#d1d5db;
+
+}
+
+body.dark .popup-icon{
+
+background:rgba(255,255,255,0.1);
+
+}
+
+body.dark #popupBtn,
+body.dark #closeCongrats{
+
+background:linear-gradient(135deg,#7c3aed,#9333ea);
+
+color:#ffffff;
+
+border:none;
+
+}
